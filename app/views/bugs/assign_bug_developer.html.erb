@@ -1,0 +1,40 @@
+<p>
+  <strong>Title:</strong>
+  <%= @bug.title%>
+</p>
+ 
+<p>
+  <strong>Description:</strong>
+  <%= @bug.body%>
+</p>
+
+<% if @bug.image.present?%>
+  <div style = "width:100px; height:70px">
+    <strong>Attachment: </strong>
+    <%= link_to image_tag(@bug.image, style: 'width:100%', padding: '200px', margin: '10px'),projects_path %>
+  </div>
+  <%else %>
+    <p>
+      <strong>No Attachment found</strong>
+    </p>
+<% end %>
+<p>
+  <strong>Status:</strong>
+  <%= @bug.projectstatus %>
+</p>
+
+<%if policy(@bug).dev? %>
+  <%if current_user.id == Bug.find_by(userbug: current_user.id) %> 
+    <%= link_to 'Remove Bug Assignment', remove_bug_developer_path(bug_id: @bug.id, project_id: @project.id)  %>
+  <%else%>
+    <%= link_to 'Take Bug', assign_bug_developer_path(bug_id: @bug.id, project_id: @project.id)  %>
+  <% end %>
+<% end %>
+
+<%if policy(@project).qa? %>
+<p>
+  <%= link_to 'Destroy Bug', @bug,
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+</p>
+<% end %>
