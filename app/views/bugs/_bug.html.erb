@@ -25,7 +25,7 @@
 
 
 <%if policy(bug).dev? %>
-  <%if current_user.id == Bug.find_by(userbug: current_user.id) %> 
+  <%if current_user.id == Bug.find_by(user_bug_id: current_user.id) %> 
     <%= link_to 'Remove Bug Assignment', remove_bug_developer_path(bug_id: bug.id, project_id: @project.id)  %>
   <%else%>
     <%= link_to 'Click to Take Bug', assign_bug_developer_path(bug_id: bug.id, project_id: @project.id)  %>

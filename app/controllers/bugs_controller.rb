@@ -32,7 +32,7 @@ class BugsController < ApplicationController
     # @users = User.find(params[:userbug])
     # user = Bug.find(params[:userbug])
     @bug = Bug.find(params[:bug_id])
-    @bug.update(userbug: current_user.id) 
+    @bug.update(user_bug_id: current_user.id) 
     render 'assign_bug_developer'
   end
 
@@ -41,7 +41,7 @@ class BugsController < ApplicationController
     # @users = User.find(params[:userbug])
     # user = Bug.find(params[:userbug])
     @bug = Bug.find(params[:bug_id])
-    userbug= Bug.find_by(userbug: @userbug, bug_id: bug.id)
+    userbug= Bug.find_by(user_bug_id: @userbug, bug_id: bug.id)
     userbug.destroy if userbug
     render 'assign_bug_developer'
   end
