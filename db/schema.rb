@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_04_171935) do
+ActiveRecord::Schema.define(version: 2020_08_05_144516) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 2020_08_04_171935) do
     t.integer "type"
     t.integer "projectstatus"
     t.integer "user_bug_id"
+    t.string "bug_type"
+    t.string "project_bug_status"
     t.index ["project_id"], name: "index_bugs_on_project_id"
   end
 

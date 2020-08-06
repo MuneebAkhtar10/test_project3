@@ -4,7 +4,7 @@
 <title>Page Title</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
+<!-- <style>
 /* Style the body */
 body {
   font-family: Arial;
@@ -62,7 +62,7 @@ a:link {
   color: white;
 
 }
-</style>
+</style> -->
 <body>
 
 <div class="header2">
@@ -72,6 +72,7 @@ a:link {
 
 <div class="header">
   <% if current_user %>
+    <%= link_to 'Home', dashboard_index_path %>
     <%= link_to 'Account', edit_user_registration_path  %>
 		<%= link_to 'Sign Out',destroy_user_session_path , method: :delete %>
 	<% else %>

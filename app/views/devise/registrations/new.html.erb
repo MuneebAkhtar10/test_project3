@@ -1,5 +1,49 @@
-<h2>Sign up</h2>
+<head>
+<title>Page Title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+<body>
 
+<div class="header2">
+  <h1>Bugzilla</h1>
+  <p>By Muneeb</p>
+</div>
+
+<div class="header">
+  <% if current_user %>
+    <%= link_to 'Home', dashboard_index_path %>
+    <%= link_to 'Account', edit_user_registration_path  %>
+    <%= link_to 'Sign Out',destroy_user_session_path , method: :delete %>
+  <% else %>
+    <%= link_to "Sign In     ." , new_user_session_path  %>
+    <%= link_to ' Sign Up', new_user_registration_path  %>
+
+  <%end %>
+</div>
+
+</head> 
+
+<style>
+form {
+  text-align: center;
+}
+.functionality h1 {
+    text-align: center;
+    color: purple;
+
+}
+
+</style>
+
+</body>
+</html>
+<p></p>
+<div class= "functionality">
+  <h1>Sign up</h1>
+</div>
+<div class= "container">
+  <p></p>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -33,10 +77,10 @@
     <%= f.label :user_type, 'Role:' %>
     <%= f.select(:user_type, class_types,{}) %>
   </div>
-  
+  <p></p>
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
 <% end %>
-
+</div>
 <%= render "devise/shared/links" %>

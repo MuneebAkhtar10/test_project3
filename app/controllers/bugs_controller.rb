@@ -29,38 +29,54 @@ class BugsController < ApplicationController
 
   def assign_bug_developer
     @project = Project.find(params[:project_id])
-    # @users = User.find(params[:userbug])
-    # user = Bug.find(params[:userbug])
     @bug = Bug.find(params[:bug_id])
-    @bug.update(user_bug_id: current_user.id) 
-    render 'assign_bug_developer'
+    @bug.update(user_bug_id: current_user.id)
+    # redirect_to  '_bug'
+    render 'assignment_bug_developer'
+
   end
 
   def remove_bug_developer
     @project = Project.find(params[:project_id])
-    # @users = User.find(params[:userbug])
-    # user = Bug.find(params[:userbug])
+
     @bug = Bug.find(params[:bug_id])
-    userbug= Bug.find_by(user_bug_id: @userbug, bug_id: bug.id)
-    userbug.destroy if userbug
-    render 'assign_bug_developer'
+    @bug.update(user_bug_id: nil) 
+    # redirect_to  '_bug'
+    render 'assignment_bug_developer'
+  end
+
+  def assign_status_to_project
+    @project = Project.find(params[:project_id])
+    @bug = Bug.find(params[:bug_id])
+    @bugstatus = Bug.where(:project_bug_status => params[:project_bug_status])
+    # @bugstatus = Bug.find(params[:project_bug_status])
+    @bug.update(project_bug_status: @bugstatus)
+    # redirect_to  '_bug'
+    render 'assignment_bug_developer'
+
+  end
+
+  def edit
+
+  end
+
+  def update
+
+  end
+
+  def show
+    @project = Project.find(params[:project_id])
+    @bug = Bug.find(params[:id])
+    render 'assignment_bug_developer'
   end
 
   def new_bug
-    render 'bugs/_form'
+    @project = Project.find(params[:project_id])
+    redirect_to 'bugs/_form'
   end
- #  def assign_developer
- #  	  @bug.user= user
- #  	  render 'index'
- #  end
-
-	# def assign_bug_to_developer
-	# 	@users = User.where(user_type: :developer)
- #    render 'assign_bug_to_developer'
-	# end
 
   private
     def bug_params
-      params.require(:bug).permit(:title, :body, :image)
+      params.require(:bug).permit(:title, :body, :image,:bug_type,:project_bug_status)
     end
 end

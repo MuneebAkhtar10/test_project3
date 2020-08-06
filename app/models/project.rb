@@ -1,8 +1,7 @@
 class Project < ApplicationRecord
   validates_associated :bugs
 	validates :title, presence: true,uniqueness: true ,
-                    length: { minimum: 5 }, format: { with: /\A[a-zA-Z]+\z/,
-    message: "only allows letters" }
+                    length: { minimum: 5}
 
 	scope :check_developer, -> {joins(:usersprojects).where(:user_id, current_user.id)}
 

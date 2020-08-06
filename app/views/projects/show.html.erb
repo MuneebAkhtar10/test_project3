@@ -2,65 +2,41 @@
 <html lang="en">
 <head>
 <title>Page Title</title>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="sNMk592JV2wwHn6DPJ8C5oy/hHDnjIlZBOHyngtTbpQ=" />
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#formButton").click(function(){
+	    $("#form1").toggle();
+	    });
+	});
+</script>
 <style>
-/* Style the body */
-body {
-  font-family: Arial;
-  margin: 0;
+	
+	 .item1 {
+	 	margin-left: -30px;
+  font-size: 22px; 
+  grid-row: 1;
 }
-/* Header/Logo Title */
-.header {
-	margin-top: -20px;
-  padding: 10px;
-  padding-right: 100px; 
-  text-align: right;
-  background:#683181;
-  color: white;
-  font-size: 30px;
-}
-.header a{
-  color: white;
-}
+.functions h1{
 
-a:link {
-	color:black;
+  color: #683181;
+  font-size: 50px; 
 
-}
-.header2 {
-	margin-top: -30px;
-	text-align: left;
-  padding: 10px;
-  background:     #683181    ;
-  color: white;
-  color
-  font-size: 30px;
-}
-/*.button {
   text-align: center;
-  background-color: #683181;
-  border: 1px;
-  color: white;
-  display: inline-block;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  margin: 0;
-  position: absolute;
-  top:25%;
-  left: 15%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  cursor: pointer;
 }
-.button a{
-	font-size: 16px;
-  color: white;
-
-}*/
+.button2 {background-color: #4CAF50;  border-radius: 12px;
+}
+.button4 {background-color: #f44336;  border-radius: 12px;
+} /* Red */ 
+.button3 {background-color: #e7e7e7; color: black;  border-radius: 12px;
+} /* Gray */ 
 </style>
+
 <body>
 
 <div class="header2">
@@ -70,6 +46,7 @@ a:link {
 
 <div class="header">
   <% if current_user %>
+    <%= link_to 'Home', dashboard_index_path %>
     <%= link_to 'Account', edit_user_registration_path  %>
 		<%= link_to 'Sign Out',destroy_user_session_path , method: :delete %>
 	<% else %>
@@ -78,45 +55,75 @@ a:link {
 	<%end %>
 </div>
 
+
+<h2>
+  <strong>Title:</strong>
+  <%= @project.title %>
+</h2>
+ 
+<h2>
+  <strong>Text:</strong>
+  <%= @project.body %>
+</h2>
+<h2>
+  <strong>User:</strong>
+ 	 <%= @project.user.email.split('@')[0].capitalize %>
+</h2>
+<p> </p>
+<%if current_user && current_user.projectmanager? && @project.user_id == current_user.id %>
+	<div class="item4">
+		<%if policy(@project).create? %>
+			<p>
+      <button class="button2">
+				<%= link_to 'click to add developers', assign_project_to_developer_project_path(@project.id) %>
+			</button>	
+
+       <button class="button3">
+	      <%= link_to 'Edit Project', edit_project_path(@project) %>
+			</button>
+      <button class="button4">
+	      <%= link_to 'Destroy', project_path(@project),
+	              method: :delete,
+	              data: { confirm: 'Are you sure?' } %>
+	    </button>
+	    </p>  
+	  <% end %>
+	</div> 
+<% end %>
+
+<div class= functions>
+	<h1>Bugs</h1>
+</div>
+<% if @project.bugs %>
+	<% if @project.bugs.present? %>
+	  <div class="grid-container">
+	    <div class="item1"><h2>Title </h2></div>
+	    <div class="item1"><h2>Description</h2></div>
+	    <div class="item1"><h2>Image</h2></div>
+	    <div class="item1"><h2>Bug type</h2></div>
+	    <div class="item1"><h2>Bug Status</h2></div>
+	    <div class="item1"><h2>Action</h2></div>
+	  </div>
+	  <%= render @project.bugs%>
+	<% else %>
+			<div class="grid-container">
+    		<div class="item2"><h4>No bugs found for this project </h4></div>
+  		</div>
+	<%end%>
+<%end %> 
+
+
+
+
+<% if current_user && current_user.qa? %>
+	<h1> Want to Add a Bug ? </h1>
+			<%= render 'bugs/form'%>
+
+<%end %>
+
+<p> </p>
+<%= link_to 'Back', projects_path %>
 </head>
 
 </body>
 </html>
-
-	<p>
-	  <strong>Title:</strong>
-	  <%= @project.title %>
-	</p>
-	 
-	<p>
-	  <strong>Text:</strong>
-	  <%= @project.body %>
-	</p>
-	<p>
-	  <strong>User:</strong>
-	 	 <%= @project.user.email.split('@')[0].capitalize %>
-	</p>
-	<p> </p>
-	<%if current_user && current_user.projectmanager? && @project.user_id == current_user.id %>
-		<div class="button">
-			<%if policy(@project).create? %>
-				<%= link_to 'click to add developers', assign_project_to_developer_project_path(@project.id) %>
-			<% end %>
-		</div>
-	<%end %>	
-	<h2>Bugs</h2>
-	<% if @project.bugs %>
-		<%= render @project.bugs%>
-	<% else %>
-		 <h4>No bugs found for this project</h4>
-	<%end%>
-	<% if current_user && current_user.qa? %>
-		<h1> Do you Want to Add a Bug ? <h1>
-		<h2>Add a Bug:</h2>
-<!-- 		
-		<p><button><%= link_to 'Show ', new_form_path(@project) %> -->
-
-		<%= render 'bugs/form' %>
-	<% end%>
-
-	<%= link_to 'Back', projects_path %>

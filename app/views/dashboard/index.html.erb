@@ -4,63 +4,23 @@
 <title>Page Title</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-/* Style the body */
-body {
-  font-family: Arial;
-  margin: 0;
-}
-
-/* Header/Logo Title */
-.header {
-	margin-top: -20px;
-  padding: 10px;
-  padding-right: 100px; 
-  text-align: right;
-  background:#683181;
-  color: white;
-  font-size: 30px;
-}
-.header a{
-  color: white;
-}
-
-a:link {
-	color:white;
-
-}
-.header2 {
-	margin-top: -30px;
-	text-align: left;
-  padding: 10px;
-  background:     #683181    ;
-  color: white;
-  color
-  font-size: 30px;
-}
-.button {
+  
+.button3 {
+  background-color:#683181 ;
   text-align: center;
-  background-color: #683181;
-  border: 1px;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  width: 130px;
-   margin: 0;
+    top: 50%;
+    left: 40%;
+    margin: 0;
   position: absolute;
-  top: 30%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-.button a{
-  color: white;
+  border-radius: 12px;
 
 }
+.button3 a{
+  color: white;
+}
+
 </style>
 <body>
 
@@ -84,7 +44,9 @@ a:link {
 </body>
 </html>
 <% if current_user %>
-  <div class="button">
-    <%= link_to 'View All Projects', projects_path %>
-  </div>
+  <button class="button3">
+    <h2><%= link_to 'View All Projects', projects_path %></h2>
+  </button>
+<%else %>
+  <h1>Please Sign in to see Projects</h1>
 <% end %>

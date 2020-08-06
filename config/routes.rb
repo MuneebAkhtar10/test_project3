@@ -8,8 +8,10 @@ Rails.application.routes.draw do
 	# get  'add_developer' ,to: 'projects#add_developer'
 	# get 'take_bug_developer', to: 'bugs#take_bug_developer'
 	get 'assign_bug_developer', to: 'bugs#assign_bug_developer'
+	get 'assign_status_to_project', to: 'bugs#assign_status_to_project'
 	get 'remove_bug_developer', to: 'bugs#remove_bug_developer'
 	get 'new_form', to: 'projects#new_form'
+	get 'new_bug', to: 'bugs#new_bug'
 
 
   shallow do
