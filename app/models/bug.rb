@@ -1,6 +1,9 @@
 class Bug < ApplicationRecord
   belongs_to :project
   has_one_attached :image
+  validates :title, presence: true,uniqueness: true ,
+                    length: { minimum: 3}
+
   has_many :users ,through: :usersprojects
   # 
   # has_many :bug_developer, dependent: :destroy

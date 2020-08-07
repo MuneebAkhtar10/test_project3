@@ -1,19 +1,20 @@
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>jQuery Populate City Dropdown Based on Country Selected</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="csrf-token" content="R/+8o7qCIsdpxYv0X/fxuZg8Tq5At6st3wmNM5vHgr7qdo29rBsTIE4mtxOFbGYTfcXTTI+Da88GirnPQUDkKQ==" />
-<meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="sNMk592JV2wwHn6DPJ8C5oy/hHDnjIlZBOHyngtTbpQ=" />
-
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-
-
-
-
+  
 <%= form_with(model: [ @project, @project.bugs.build ],:authenticity_token => true ,local: true) do |form| %>
+
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@project.errors.count, "error") %> prohibited
+        this project from being saved:
+      </h2>
+      <ul>
+        <% @project.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
  <%= csrf_meta_tags %>
   <p>
     <%= form.label :title %><br>
@@ -29,55 +30,34 @@
     <%= form.file_field :image%>
   </p>
   
- <!--  
-  <select name="select1" id="select1">
-    <option value="bug">Bug</option>
-    <option value="feature">feature</option>
-  </select>
-
-  <select name="select2" id="select2">
-    <option value="bug">New </option>
-    <option value="bug">Started</option>
-    <option value="bug">resolved</option>
-    <option value="feature">New</option>
-    <option value="feature">Started</option>
-    <option value="feature">Completed</option>
-  </select>
-</head>
-</html>
-
-<script>
 
 
-function getOption() { 
-        selectElement =  
-                document.querySelector('#select1'); 
-                  
-        output = selectElement.value; 
-        document.querySelector('.output').textContent 
-                = output; 
-  return output;
-        
-    } 
-  x= getoption();
-</script> -->
- 
-
-  <div class="control-group">
-    <%= form.label "type" , class: "control-label"%>
-    <div class="control">
-    <%= form.select(:bug_type, options_for_select([['Bug', 'bug'],['feature','feature']]), {include_blank: true}) %>
-    </div>
+  <div class="field">
+    <% bug_type=['Bug','Feature'] %>
+    <%= form.label :bugtype %>
+    <%= form.select :bug_type, bug_type, {}, id: :bug_type ,onchange: "getoption()" %>
   </div>
 
-  <div class="control-group">
-    <%= form.label "project_bug_status" , class: "control-label"%>
-    <div class="control">
-    <%= form.select(:project_bug_status, options_for_select([['New', 'new'],['Started','started'],['resolved','resolved']])) %>
-    </div>
+  <script>
+
+  function getoption() {
+    var options=[ ['New','Started','Resolved'],['New','Started','Completed']];
+    var x= document.getElementById("bug_type").selectedIndex;
+    var i;
+    var option="";
+    for(i =0;i<options[x].length;i++)
+    {
+      option += '<option value ="'+options[x][i]+'"'+'>'+options[x][i]+'</option>';
+    }
+    document.getElementById("project_bug_status").innerHTML=option;
+  }
+
+  </script>
+
+  <div class="field">
+    <%= form.label :project_bug_status %>
+    <%= form.select(:project_bug_status,['New','Started','Completed'], {},id: :project_bug_status) %>
   </div>
-
-
 
   <p>
     <%= form.submit %>

@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 	get 'assign_bug_developer', to: 'bugs#assign_bug_developer'
 	get 'assign_status_to_project', to: 'bugs#assign_status_to_project'
 	get 'remove_bug_developer', to: 'bugs#remove_bug_developer'
-	get 'new_form', to: 'projects#new_form'
-	get 'new_bug', to: 'bugs#new_bug'
+	# get 'new_form', to: 'projects#new_form'
+	# get 'new_bug', to: 'bugs#new_bug'
 
 
   shallow do
@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 			end	
 			resources :bugs
 				member do
+					# get 'assign_bug_developer'
 					# get 'assign_bug_developer'
 			end
 		end

@@ -42,7 +42,7 @@
 }
 .functions h1{
   color: #683181;
-  font-size: 50px; 
+  font-size: 30px; 
 
   text-align: center;
 }
@@ -56,6 +56,11 @@
     border-radius: 12px;
 
 
+}
+hr{
+
+  margin-left:  50px;
+  margin-right: 50px;
 }
 
 .button2 {background-color: #4CAF50;  border-radius: 12px;
@@ -107,7 +112,9 @@
   </div> 
   <p></p>
   <% @projects.each do |project| %>
-  <hr>
+  <% if policy(project).qa? || policy(project).pm? %>
+    <hr>
+  <%end %>
     <div class="grid-container2">
       <% if policy(project).qa? || policy(project).pm? %>
 

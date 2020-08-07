@@ -16,7 +16,8 @@
 .grid-container > div {
   text-align: center;
   padding: 0px 0;
-  font-size: 20px;
+  font-size: 16px;
+  margin-right: 10px
 }
 .grid-container2 {
   display: grid;
@@ -31,7 +32,7 @@
   font-size: 16px;
   table-layout: fixed;
   width: 40px;
-  margin-left: 90px;
+  margin-left: 70px;
 }
  .item1 {
   font-size: 22px; 
@@ -47,7 +48,7 @@
 }
 .functions h1{
   color: #683181;
-  font-size: 50px; 
+  font-size: 30px; 
 
   text-align: center;
 }
@@ -60,7 +61,11 @@
   position: absolute;
 
 }
+hr{
 
+  margin-left:  50px;
+  margin-right: 50px ;
+}
 .button2 {background-color: #4CAF50;}
 .button4 {background-color: #f44336;} /* Red */ 
 .button3 {background-color: #e7e7e7; color: black;} /* Gray */ 
@@ -102,14 +107,6 @@
       <%= bug.project_bug_status%>
     </p>
   </div>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $("#formButton").click(function(){
-      $("#form1").toggle();
-      });
-  });
-</script>
 
   <div class="item2">
     <p>
@@ -117,7 +114,7 @@
         <button class="button2">
           <%= link_to 'Show', bug_path(bug,project_id: @project.id) %>
         </button>
-        <%if policy(@project).qa? %>
+        <%if policy(@project).qa? && bug.creator_bug_id== current_user.id%>
           <button class="button4">
             <%= link_to 'delete',  bug,
                      method: :delete,
@@ -127,7 +124,17 @@
     <% end %>
     </p>
   </div>
+
+  <div class="item2">
+
+    <%if policy(bug).dev? && current_user.id == bug.user_bug_id && bug.project_bug_status!='completed'%>
+      <p> Taken By id:"<%= bug.user_bug_id %>"</p>
+    <%elsif bug.project_bug_status=='completed'%>
+      <p> Completed By id:"<%= bug.user_bug_id %>"</p>
+    <%elsif policy(@project).qa? && bug.user_bug_id%>
+    <p> Taken By id:"<%= bug.user_bug_id %>"</p>
+    <% end %>
+  </div>
+
 </div>
 
-<!-- 
-&& Bug.joins(:project).where(user_id: current_user)==current_user -->

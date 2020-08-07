@@ -7,14 +7,15 @@ class BugsController < ApplicationController
 	def create
     	@project = Project.find(params[:project_id])
     	@bug = @project.bugs.create(bug_params)
-    	redirect_to project_path(@project)
+      @bug.update(creator_bug_id: current_user.id)
+
+      redirect_to project_path(@project)
   end
  	def destroy
     	@bug = Bug.find(params[:id])
     	@bug.destroy
     	redirect_to project_url(@bug.project_id)
   end
-
 
   # def take_bug_developer
   #   byebug
@@ -31,7 +32,7 @@ class BugsController < ApplicationController
     @project = Project.find(params[:project_id])
     @bug = Bug.find(params[:bug_id])
     @bug.update(user_bug_id: current_user.id)
-    # redirect_to  '_bug'
+    @bug.update(project_bug_status: 'started')
     render 'assignment_bug_developer'
 
   end
@@ -40,19 +41,18 @@ class BugsController < ApplicationController
     @project = Project.find(params[:project_id])
 
     @bug = Bug.find(params[:bug_id])
-    @bug.update(user_bug_id: nil) 
-    # redirect_to  '_bug'
+    @bug.update(user_bug_id: nil)
+    @bug.update(project_bug_status: 'new') 
     render 'assignment_bug_developer'
   end
 
   def assign_status_to_project
     @project = Project.find(params[:project_id])
     @bug = Bug.find(params[:bug_id])
-    @bugstatus = Bug.where(:project_bug_status => params[:project_bug_status])
-    # @bugstatus = Bug.find(params[:project_bug_status])
-    @bug.update(project_bug_status: @bugstatus)
-    # redirect_to  '_bug'
-    render 'assignment_bug_developer'
+    # @bugstatus = Bug.where(:project_bug_status => params[:project_bug_status])
+    # bugstatus = Bug.find(params[:project_bug_status])
+    @bug.update(project_bug_status: 'completed')
+    redirect_to project_path(@project)
 
   end
 
@@ -69,6 +69,12 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
     render 'assignment_bug_developer'
   end
+
+  # def assign_bug_developer
+  #   @project = Project.find(params[:project_id])
+  #   @bug = Bug.find(params[:id])
+  #   render 'assignment_bug_developer'
+  # end
 
   def new_bug
     @project = Project.find(params[:project_id])

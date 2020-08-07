@@ -19,15 +19,20 @@
 	
 	 .item1 {
 	 	margin-left: -30px;
-  font-size: 22px; 
+  font-size: 18px; 
   grid-row: 1;
 }
 .functions h1{
 
   color: #683181;
-  font-size: 50px; 
+  font-size: 20px; 
 
   text-align: center;
+}
+hr{
+
+   margin-left: 50px;
+  margin-right:50px ;
 }
 .button2 {background-color: #4CAF50;  border-radius: 12px;
 }
@@ -56,19 +61,19 @@
 </div>
 
 
-<h2>
+<h4>
   <strong>Title:</strong>
   <%= @project.title %>
-</h2>
+</h4>
  
-<h2>
+<h4>
   <strong>Text:</strong>
   <%= @project.body %>
-</h2>
-<h2>
+</h4>
+<h4>
   <strong>User:</strong>
  	 <%= @project.user.email.split('@')[0].capitalize %>
-</h2>
+</h4>
 <p> </p>
 <%if current_user && current_user.projectmanager? && @project.user_id == current_user.id %>
 	<div class="item4">
@@ -103,6 +108,8 @@
 	    <div class="item1"><h2>Bug type</h2></div>
 	    <div class="item1"><h2>Bug Status</h2></div>
 	    <div class="item1"><h2>Action</h2></div>
+	    <div class="item1"><h2>Assigned to</h2></div>
+
 	  </div>
 	  <%= render @project.bugs%>
 	<% else %>
@@ -111,9 +118,6 @@
   		</div>
 	<%end%>
 <%end %> 
-
-
-
 
 <% if current_user && current_user.qa? %>
 	<h1> Want to Add a Bug ? </h1>

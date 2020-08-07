@@ -32,7 +32,7 @@
   <% end %>
 <% end %>
 
-<%if policy(@project).qa? %>
+<%if policy(@project).qa? && @bug.creator_bug_id==current_user.id%>
 <p>
   <%= link_to 'Delete', @bug,
                method: :delete,
@@ -40,6 +40,9 @@
 </p>
 <% end %>
 <p></p>
+
+
+<!-- 
 <%= form_with(model: [ @project, @project.bugs.build ],:authenticity_token => true ,local: true) do |form| %>
 
   <%if current_user.id == @bug.user_bug_id %>
@@ -49,12 +52,15 @@
       <%= form.select(:project_bug_status, options_for_select([['New', 'new'],['Started','started'],['resolved','resolved']])) %>
       </div>
     </div>
+
+     <p></p>
+    <%= link_to 'Save Update', assign_status_to_project_path(bug_id: @bug.id, project_id: @project.id, project_bug_status: @project_bug_status )  %>
   <% end %>
 
+<% end%> -->
 
-<!-- <p></p>
-<%= link_to 'Save Update', assign_status_to_project_path(bug_id: @bug.id, project_id: @project.id, project_bug_status: @project_bug_status )  %>
- -->
-<% end%>
+  <%= link_to 'Mark as Complete', assign_status_to_project_path(bug_id: @bug.id, project_id: @project.id) %>
+
+
 <P></P>
-<%= link_to 'Back', projects_path %>
+<%= link_to 'Back', project_path(@project) %>
