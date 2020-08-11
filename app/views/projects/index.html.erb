@@ -10,6 +10,7 @@
   display: grid;
   grid-template-columns: auto auto auto auto;
   grid-gap: 0px;
+
   background-color: white;
 
 }
@@ -17,24 +18,36 @@
 .grid-container > div {
   text-align: center;
   padding: 0px 0;
-  font-size: 20px;
+  width: 190px;
+  font-size: 16px;
+  margin-left: 170px
 }
 .grid-container2 {
   display: grid;
   grid-template-columns: auto auto auto auto;
   grid-gap: 0px;
-
   background-color: white;
-  padding: 00px;
+  padding: 10px;
 }
 .grid-container2 > div {
   text-align: center;
   padding: 5px 0;
-
   font-size: 16px;
+  table-layout: fixed;
+  width: 190px;
+      margin-left: 170px;
+
 }
  .item1 {
   font-size: 22px; 
+  grid-row: 1;
+}
+.item2 a{
+  color: black; 
+}
+ .item2 {
+  font-size: 16px; 
+  grid-row: 1;
 }
 .grid-container h2{
 
@@ -50,28 +63,21 @@
   background-color: #008CBA;
   text-align: center;
 
+    left: 45%;
+    margin: 0;
     border-radius: 12px;
 }
 .button5 a{
-      color: black;
-
+  color:black;
 }
 hr{
 
   margin-left:  50px;
-  margin-right: 50px;
+  margin-right: 50px ;
 }
-
-.button2 {background-color: #4CAF50;  border-radius: 12px;
-}
-.button2 a
-{
-  color: black;
-}
-.button4 {background-color: #f44336;  border-radius: 12px;
-} /* Red */ 
-.button3 {background-color: #e7e7e7; color: black;  border-radius: 12px;
-} /* Gray */ 
+.button2 {background-color: #4CAF50;border-radius: 12px;}
+.button4 {background-color: #f44336;border-radius: 12px;} /* Red */ 
+.button3 {background-color: #e7e7e7; color: black;border-radius: 12px;} /* Gray */ 
 </style>
 
 <body>
@@ -107,67 +113,68 @@ hr{
     <p> You are signed in as developer </p>
   <%end %>
   <h1>All Projects</h1>
-  <div class="grid-container">
-    <div class="item1"><h2>Title </h2></div>
-    <div class="item1"><h2>text</h2></div>
-    <div class="item1"><h2>Action </h2></div>
+</div>
+<div class="grid-container">
+  <div class="item1"><h2>Title </h2></div>
+  <div class="item1"><h2>text</h2></div>
+  <div class="item1"><h2>Action </h2></div>
 
-  </div> 
-  <p></p>
-  <% @projects.each do |project| %>
-  <% if policy(project).qa? || policy(project).pm? %>
-    <hr>
-  <%end %>
-    <div class="grid-container2">
-      <% if policy(project).qa? || policy(project).pm? %>
+</div> 
+<p></p>
 
+<% @projects.each do |project| %>
+<% if policy(project).qa? || policy(project).pm? %>
+  <hr>
+<%end %>
+  <div class="grid-container2">
+    <% if policy(project).qa? || policy(project).pm? %>
+
+      <div class="item2">
+          <p><%= project.title %></p>
+
+      </div>
+
+      <div class="item2">
+          <p><%= project.body %></p>
+
+      </div>
+  
+      <div class="item2">
+        <p>
+        <button class="button2">
+          <%= link_to 'Show', project_path(project) %>
+        </button>
+        <%if current_user && current_user.projectmanager? && project.user_id == current_user.id %>
+          <button class="button3">
+            <%= link_to 'Edit', edit_project_path(project) %>
+          </button>
+          <button class="button4">
+            <%= link_to 'Destroy', project_path(project),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' } %>
+          </button>
+        </p> 
+        <%end %>
+      </div>    
+
+    <%elsif policy(project).dev? %>
+      <% if project == current_user.projects.find_by(id: project.id)%>
         <div class="item2">
-            <p><%= project.title %></p>
-
+          <%= project.title %>
         </div>
-
         <div class="item2">
-            <p><%= project.body %></p>
-
+          <%= project.body %>
         </div>
-    
-        <div class="item4">
-          <p>
+      
+        <div class="item2">
           <button class="button2">
             <%= link_to 'Show', project_path(project) %>
           </button>
-          <%if current_user && current_user.projectmanager? && project.user_id == current_user.id %>
-            <button class="button3">
-              <%= link_to 'Edit', edit_project_path(project) %>
-            </button>
-            <button class="button4">
-              <%= link_to 'Destroy', project_path(project),
-                      method: :delete,
-                      data: { confirm: 'Are you sure?' } %>
-            </button>
-          </p> 
-          <%end %>
-        </div>    
-
-      <%elsif policy(project).dev? %>
-        <% if project == current_user.projects.find_by(id: project.id)%>
-          <div class="item2">
-            <%= project.title %>
-          </div>
-          <div class="item2">
-            <%= project.body %>
-          </div>
-        
-          <div class="item2">
-            <button class="button2">
-              <%= link_to 'Show', project_path(project) %>
-            </button>
-          </div>
-        <% end %>   
-      <%end %>
-    </div>  
-  <% end %>
-</div>
+        </div>
+      <% end %>   
+    <%end %>
+  </div>  
+<% end %>
 
 <hr>
 <%if policy(@projects).create? %>
