@@ -1,4 +1,5 @@
   
+
 <%= form_with(model: [ @project, @project.bugs.build ],:authenticity_token => true ,local: true) do |form| %>
 
   <% if @project.errors.any? %>
@@ -18,7 +19,7 @@
  <%= csrf_meta_tags %>
   <p>
     <%= form.label :title %><br>
-    <%= form.text_field :title%>
+    <%= form.text_field :title, required: true,minlength: 4%>
   </p>
   <p>
     <%= form.label :description%><br>
@@ -29,8 +30,11 @@
     <%= form.label :image%><br>
     <%= form.file_field :image%>
   </p>
-  
-
+    
+  <div class = "field">
+    <%= form.label :deadline %>
+    <%= form.text_field :deadline, id: :project_deadline%>
+  </div>  
 
   <div class="field">
     <% bug_type=['Bug','Feature'] %>
@@ -51,6 +55,12 @@
     }
     document.getElementById("project_bug_status").innerHTML=option;
   }
+
+  $('document').ready(function(){
+    $('#project_deadline').datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
+  }); 
 
   </script>
 

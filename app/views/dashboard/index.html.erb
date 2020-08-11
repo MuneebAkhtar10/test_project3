@@ -20,7 +20,10 @@
 .button3 a{
   color: white;
 }
+.button3 h1{
 
+  font-size: 16px;
+}
 </style>
 <body>
 
@@ -45,7 +48,7 @@
 </html>
 <% if current_user %>
   <button class="button3">
-    <h2><%= link_to 'View All Projects', projects_path %></h2>
+    <h3><%= link_to 'View All Projects', projects_path %></h3>
   </button>
 <%else %>
   <h1>Please Sign in to see Projects</h1>

@@ -22,12 +22,18 @@
   font-size: 18px; 
   grid-row: 1;
 }
-.functions h1{
+.functions h3{
 
   color: #683181;
   font-size: 20px; 
 
   text-align: center;
+}
+
+.item1 h3
+{
+	font-size: 20px;
+	color: #683181;
 }
 hr{
 
@@ -101,14 +107,15 @@ hr{
 </div>
 <% if @project.bugs %>
 	<% if @project.bugs.present? %>
+
 	  <div class="grid-container">
-	    <div class="item1"><h2>Title </h2></div>
-	    <div class="item1"><h2>Description</h2></div>
-	    <div class="item1"><h2>Image</h2></div>
-	    <div class="item1"><h2>Bug type</h2></div>
-	    <div class="item1"><h2>Bug Status</h2></div>
-	    <div class="item1"><h2>Action</h2></div>
-	    <div class="item1"><h2>Assigned to</h2></div>
+	    <div class="item1"><h3>Title </h3></div>
+	    <div class="item1"><h3>Description</h3></div>
+	    <div class="item1"><h3>Image</h3></div>
+	    <div class="item1"><h3>Bug type</h3></div>
+	    <div class="item1"><h3>Bug Status</h3></div>
+	    <div class="item1"><h3>Action</h3></div>
+	    <div class="item1"><h3>Assigned to</h3></div>
 
 	  </div>
 	  <%= render @project.bugs%>

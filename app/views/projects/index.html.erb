@@ -50,11 +50,10 @@
   background-color: #008CBA;
   text-align: center;
 
-    left: 45%;
-    margin: 0;
-  position: absolute;
     border-radius: 12px;
-
+}
+.button5 a{
+      color: black;
 
 }
 hr{
@@ -64,6 +63,10 @@ hr{
 }
 
 .button2 {background-color: #4CAF50;  border-radius: 12px;
+}
+.button2 a
+{
+  color: black;
 }
 .button4 {background-color: #f44336;  border-radius: 12px;
 } /* Red */ 
@@ -160,7 +163,6 @@ hr{
               <%= link_to 'Show', project_path(project) %>
             </button>
           </div>
-          
         <% end %>   
       <%end %>
     </div>  
@@ -170,6 +172,6 @@ hr{
 <hr>
 <%if policy(@projects).create? %>
    <button class="button5">
-    <p><%= link_to 'Add New project', new_project_path %></p>
+    <%= link_to 'Add New project', new_project_path %>
   </button>
 <%end %>

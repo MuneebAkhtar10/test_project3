@@ -38,6 +38,9 @@
   font-size: 22px; 
   grid-row: 1;
 }
+.item2 a{
+  color: black; 
+}
  .item2 {
   font-size: 16px; 
   grid-row: 1;
@@ -127,12 +130,12 @@ hr{
 
   <div class="item2">
 
-    <%if policy(bug).dev? && current_user.id == bug.user_bug_id && bug.project_bug_status!='completed'%>
+    <%if (policy(@project).pm? || policy(bug).dev?) && current_user.id == bug.user_bug_id && bug.project_bug_status!='completed'%>
       <p> Taken By id:"<%= bug.user_bug_id %>"</p>
     <%elsif bug.project_bug_status=='completed'%>
       <p> Completed By id:"<%= bug.user_bug_id %>"</p>
-    <%elsif policy(@project).qa? && bug.user_bug_id%>
-    <p> Taken By id:"<%= bug.user_bug_id %>"</p>
+    <%elsif (policy(@project).pm? || policy(bug).dev?) && bug.user_bug_id%>
+    <p> Taken </p>
     <% end %>
   </div>
 

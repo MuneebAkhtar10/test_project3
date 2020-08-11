@@ -9,24 +9,21 @@ class BugsController < ApplicationController
     	@bug = @project.bugs.create(bug_params)
       @bug.update(creator_bug_id: current_user.id)
 
+    if @project.save
+      flash.now[:notice] = "We have exactly books available."
       redirect_to project_path(@project)
+    else
+
+      render 'new'
+    end
+
   end
+
  	def destroy
     	@bug = Bug.find(params[:id])
     	@bug.destroy
     	redirect_to project_url(@bug.project_id)
   end
-
-  # def take_bug_developer
-  #   byebug
-  #   @project = Project.find(params[:project_id])
-  #   @users = User.where(user_type: :developer)
-  #   # user = Bug.find(params[:userbug])
-  #   @bug = Bug.find(params[:id])
-  #   @bug.user<< @user
-  #   render 'index'
-  # end
-
 
   def assign_bug_developer
     @project = Project.find(params[:project_id])
@@ -49,8 +46,6 @@ class BugsController < ApplicationController
   def assign_status_to_project
     @project = Project.find(params[:project_id])
     @bug = Bug.find(params[:bug_id])
-    # @bugstatus = Bug.where(:project_bug_status => params[:project_bug_status])
-    # bugstatus = Bug.find(params[:project_bug_status])
     @bug.update(project_bug_status: 'completed')
     redirect_to project_path(@project)
 
@@ -69,20 +64,21 @@ class BugsController < ApplicationController
     @bug = Bug.find(params[:id])
     render 'assignment_bug_developer'
   end
+  # def project_assignment_try
+  #    @project = Project.find(params[:project_id])
+  #   @bug = Bug.find(params[:id])
+  #   render 'assignment_bug_developer'
+  # end
 
-  # def assign_bug_developer
+  # def assignment_bug_developer
   #   @project = Project.find(params[:project_id])
   #   @bug = Bug.find(params[:id])
   #   render 'assignment_bug_developer'
   # end
 
-  def new_bug
-    @project = Project.find(params[:project_id])
-    redirect_to 'bugs/_form'
-  end
 
   private
     def bug_params
-      params.require(:bug).permit(:title, :body, :image,:bug_type,:project_bug_status)
+      params.require(:bug).permit(:title, :body, :image,:bug_type,:project_bug_status,:deadline)
     end
 end

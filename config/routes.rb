@@ -24,9 +24,11 @@ Rails.application.routes.draw do
 			end	
 			resources :bugs
 				member do
+					get 'assignment_bug_developer'
 					# get 'assign_bug_developer'
 					# get 'assign_bug_developer'
 			end
+			get 'assignment_try'
 		end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

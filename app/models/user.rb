@@ -12,4 +12,9 @@ class User < ApplicationRecord
   has_many :projects, through: :usersprojects
   enum user_type: [:projectmanager, :qa, :developer]
 
+  # validates :email,
+  # format: { with: /^(.+)@(.+)$/, message: "Email invalid"  },
+  #           uniqueness: { case_sensitive: false },
+  #           length: { minimum: 4, maximum: 254 } 
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/
 end
